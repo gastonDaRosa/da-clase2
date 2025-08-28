@@ -5,65 +5,65 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.time.Duration;
-;
-
+import java.time.Duration;;
 
 public class ServiciosUsuario {
-    private List<Usuario> usuarios;
-    
-    private static ServiciosUsuario instancia;
-    private ServiciosUsuario() {
-        this.usuarios = new ArrayList<>();
-    }   
-    public static ServiciosUsuario getInstancia() {
-        if (instancia == null) {
-            instancia = new ServiciosUsuario();
-            instancia.cargarDatosIniciales();
+	private List<Usuario> usuarios;
 
-        }
-        return instancia;
-    }
+	private static ServiciosUsuario instancia;
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
+	private ServiciosUsuario() {
+		this.usuarios = new ArrayList<>();
+	}
 
-    private void cargarDatosIniciales() {
+	public static ServiciosUsuario getInstancia() {
+		if (instancia == null) {
+			instancia = new ServiciosUsuario();
+			instancia.cargarDatosIniciales();
+
+		}
+		return instancia;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	private void cargarDatosIniciales() {
 		List<Usuario> usuarios = new ArrayList<>();
 		Random random = new Random();
-		
+
 		// Fecha base: 1 de enero de 2025
 		LocalDateTime fechaBase = LocalDateTime.of(2025, 1, 1, 8, 0); // 8:00 AM
-		
+
 		// Datos para usuarios
 		String[][] datosUsuarios = {
-			{"jperez", "Juan", "Pérez"},
-			{"mgarcia", "María", "García"},
-			{"crodriguez", "Carlos", "Rodríguez"},
-			{"lfernandez", "Laura", "Fernández"},
-			{"dmartinez", "Diego", "Martínez"},
-			{"slopez", "Sofía", "López"},
-			{"rgonzalez", "Roberto", "González"},
-			{"aperez", "Ana", "Pérez"},
-			{"jmorales", "Jorge", "Morales"},
-			{"vsilva", "Valentina", "Silva"}
+				{ "jperez", "Juan", "Pérez" },
+				{ "mgarcia", "María", "García" },
+				{ "crodriguez", "Carlos", "Rodríguez" },
+				{ "lfernandez", "Laura", "Fernández" },
+				{ "dmartinez", "Diego", "Martínez" },
+				{ "slopez", "Sofía", "López" },
+				{ "rgonzalez", "Roberto", "González" },
+				{ "aperez", "Ana", "Pérez" },
+				{ "jmorales", "Jorge", "Morales" },
+				{ "vsilva", "Valentina", "Silva" }
 		};
-		
+
 		for (int i = 0; i < datosUsuarios.length; i++) {
 			Usuario usuario = new Usuario();
 			usuario.setUserName(datosUsuarios[i][0]);
 			usuario.setNombre(datosUsuarios[i][1]);
 			usuario.setApellido(datosUsuarios[i][2]);
 			usuario.setHabilitado(random.nextBoolean());
-			
+
 			// Crear accesos para cada usuario (entre 2 y 5 accesos)
 			List<Acceso> accesos = new ArrayList<>();
 			int numeroAccesos = 2 + random.nextInt(4); // Entre 2 y 5 accesos
-			
+
 			for (int j = 0; j < numeroAccesos; j++) {
 				Acceso acceso = new Acceso();
-				
+
 				// Crear horarios más variados a lo largo del día
 				int horaBase;
 				if (j == 0) {
@@ -79,43 +79,44 @@ public class ServiciosUsuario {
 					// Cuarta o quinta entrada: entre 4:00 PM y 6:00 PM
 					horaBase = 16 + random.nextInt(3);
 				}
-				
+
 				int minutoEntrada = random.nextInt(60);
-				LocalDateTime entrada = fechaBase.withHour(horaBase).withMinute(minutoEntrada).withSecond(0).withNano(0);
-				
+				LocalDateTime entrada = fechaBase.withHour(horaBase).withMinute(minutoEntrada).withSecond(0)
+						.withNano(0);
+
 				// Diferencia entre entrada y salida: entre 1 y 10 minutos
 				int duracionMinutos = 1 + random.nextInt(10);
 				LocalDateTime salida = entrada.plusMinutes(duracionMinutos);
-				
+
 				// Convertir LocalDateTime a Timestamp
 				acceso.setEntrada(Timestamp.valueOf(entrada));
 				acceso.setSalida(Timestamp.valueOf(salida));
-				
+
 				accesos.add(acceso);
 			}
-			
+
 			usuario.setAccesos(accesos);
 			usuarios.add(usuario);
 		}
-		
+
 		this.usuarios = usuarios;
-		
+
 		// Mostrar información de los datos cargados
 		System.out.println("=== DATOS DE PRUEBA CARGADOS ===");
 		System.out.println("Total de usuarios: " + usuarios.size());
-		
+
 		for (Usuario usuario : usuarios) {
-			System.out.println("\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido() + 
-							   " (" + usuario.getUserName() + ")");
+			System.out.println("\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido() +
+					" (" + usuario.getUserName() + ")");
 			System.out.println("Habilitado: " + usuario.isHabilitado());
 			System.out.println("Número de accesos: " + usuario.getAccesos().size());
-			
+
 			for (int i = 0; i < usuario.getAccesos().size(); i++) {
 				Acceso acceso = usuario.getAccesos().get(i);
 				System.out.println("  Acceso " + (i + 1) + ":");
 				System.out.println("    Entrada: " + acceso.getEntrada());
 				System.out.println("    Salida:  " + acceso.getSalida());
-				
+
 				// Calcular duración
 				long duracion = acceso.getSalida().getTime() - acceso.getEntrada().getTime();
 				long minutos = duracion / (60 * 1000);
@@ -125,23 +126,23 @@ public class ServiciosUsuario {
 		System.out.println("================================");
 	}
 
-	public List<Usuario>  usuariosHabilitadosConAccesoMayorA(int numero){
-		List<Usuario> resultado= new ArrayList<>();
-		
+	public List<Usuario> usuariosHabilitadosConAccesoMayorA(int numero) {
+		List<Usuario> resultado = new ArrayList<>();
+
 		for (Usuario usuario : usuarios) {
 
-			for (Acceso accUsu : usuario.getAccesos()) {
-				long millisecondsDifference = accUsu.getSalida().getTime() - accUsu.getEntrada().getTime();
-        		long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
-				if( minutes > numero ){
-					resultado.add(usuario);
+			if (usuario.isHabilitado()) {
+				for (Acceso accUsu : usuario.getAccesos()) {
+					long millisecondsDifference = accUsu.getSalida().getTime() - accUsu.getEntrada().getTime();
+					long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
+					if (minutes > numero) {
+						resultado.add(usuario);
+					}
 				}
+
 			}
 
 		}
-
-
-
 
 		return resultado;
 	}
