@@ -123,4 +123,18 @@ public class ServiciosUsuario {
 		}
 		System.out.println("================================");
 	}
+
+	public List<Usuario>  usuariosHabilitadosConAccesoMayorA(int numero){
+		List<Usuario> resultado= new ArrayList<>();
+		
+		for (Usuario usuario : usuarios) {
+
+
+		}
+
+
+
+
+		return null;
+	}
 }
