@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.time.Duration;
 ;
 
 
@@ -129,12 +130,19 @@ public class ServiciosUsuario {
 		
 		for (Usuario usuario : usuarios) {
 
+			for (Acceso accUsu : usuario.getAccesos()) {
+				long millisecondsDifference = accUsu.getSalida().getTime() - accUsu.getEntrada().getTime();
+        		long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
+				if( minutes > numero ){
+					resultado.add(usuario);
+				}
+			}
 
 		}
 
 
 
 
-		return null;
+		return resultado;
 	}
 }

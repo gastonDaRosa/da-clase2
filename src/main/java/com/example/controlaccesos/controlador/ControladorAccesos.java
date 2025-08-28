@@ -20,7 +20,7 @@ public class ControladorAccesos {
 
     @GetMapping("/lista")
     public List<Usuario> usuariosHabilitadosConAccesoMayorA(@RequestParam int minutos) {
-        return null; // Implementación pendiente
+        return serviciosUsuario.usuariosHabilitadosConAccesoMayorA(minutos); // Implementación pendiente
     }
 
 }
