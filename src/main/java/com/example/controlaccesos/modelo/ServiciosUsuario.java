@@ -151,22 +151,23 @@ public class ServiciosUsuario {
 
 	public Set<String> stringUsuariosHabilitadosConAccesoMayorA(int numero) {
 		Set<String> resultado = new HashSet<>(); // = new ArrayList<>();
+		int cantUsu = 0;
 
 		for (Usuario usuario : usuarios) {
 
 			if (usuario.isHabilitado()) {
-				for (Acceso accUsu : usuario.getAccesos()) {
-					long millisecondsDifference = accUsu.getSalida().getTime() - accUsu.getEntrada().getTime();
-					long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
-					if (minutes > numero) {
-						resultado.add(usuario.getNombre() + " " + usuario.getApellido() );
-					}
+				if(!usuario.devolverAccesosMayorA(numero).isEmpty()){
+					resultado.addAll(usuario.devolverAccesosMayorA(numero));
+					cantUsu ++;
 				}
 
 			}
 
 		}
+		Set<String> retorno = new HashSet<>();
+		retorno.add("Minutos de la prueba " + numero + " " + "CantUsuarios " + cantUsu + " " );
+		retorno.addAll(resultado);
 
-		return resultado;
+		return retorno;
 	}
 }
