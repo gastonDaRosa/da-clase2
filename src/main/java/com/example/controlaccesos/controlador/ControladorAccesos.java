@@ -2,6 +2,8 @@ package com.example.controlaccesos.controlador;
 
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +21,8 @@ public class ControladorAccesos {
     }
 
     @GetMapping("/lista")
-    public List<Usuario> usuariosHabilitadosConAccesoMayorA(@RequestParam int minutos) {
-        return serviciosUsuario.usuariosHabilitadosConAccesoMayorA(minutos); // Implementación pendiente
+    public Set<String> usuariosHabilitadosConAccesoMayorA(@RequestParam int minutos) {
+        return serviciosUsuario.stringUsuariosHabilitadosConAccesoMayorA(minutos); // Implementación pendiente
     }
 
 }

@@ -3,8 +3,10 @@ package com.example.controlaccesos.modelo;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.time.Duration;;
 
 public class ServiciosUsuario {
@@ -137,6 +139,27 @@ public class ServiciosUsuario {
 					long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
 					if (minutes > numero) {
 						resultado.add(usuario);
+					}
+				}
+
+			}
+
+		}
+
+		return resultado;
+	}
+
+	public Set<String> stringUsuariosHabilitadosConAccesoMayorA(int numero) {
+		Set<String> resultado = new HashSet<>(); // = new ArrayList<>();
+
+		for (Usuario usuario : usuarios) {
+
+			if (usuario.isHabilitado()) {
+				for (Acceso accUsu : usuario.getAccesos()) {
+					long millisecondsDifference = accUsu.getSalida().getTime() - accUsu.getEntrada().getTime();
+					long minutes = (millisecondsDifference % (1000 * 60 * 60)) / (1000 * 60);
+					if (minutes > numero) {
+						resultado.add(usuario.getNombre() + " " + usuario.getApellido() );
 					}
 				}
 
